@@ -19,3 +19,4 @@ env:
   # @link https://github.com/WordPress/WordPress/tree/4.3-branch
   - WP_VERSION=4.3 WP_MULTISITE=0
   - WP_VERSION=4.3 WP_MULTISITE=1
+  
