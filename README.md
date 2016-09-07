@@ -1,5 +1,4 @@
 # Gravity Forms To MailUp (Wordpress Plugin)
-[![Build Status](https://travis-ci.org/leopuleo/easy-swipebox.svg?branch=easy-swipebox-1.1)](https://travis-ci.org/leopuleo/easy-swipebox)
 
 Integrate Gravity Forms with MailUp allowing form submissions to be automatically sent to your MailUp account
 
