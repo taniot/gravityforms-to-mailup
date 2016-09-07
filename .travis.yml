@@ -19,4 +19,15 @@ env:
   # @link https://github.com/WordPress/WordPress/tree/4.3-branch
   - WP_VERSION=4.3 WP_MULTISITE=0
   - WP_VERSION=4.3 WP_MULTISITE=1
-  
+
+matrix:
+  allow_failures:
+    - php: nightly
+
+install:
+  - composer self-update && composer --version
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer global require squizlabs/php_codesniffer
+
+script:
+  - phpcs --standard=ruleset.xml --extensions=php -n -s .
