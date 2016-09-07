@@ -1,0 +1,233 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Gravity Forms to MailUp\n"
+"POT-Creation-Date: 2016-09-07 11:09+0200\n"
+"PO-Revision-Date: 2016-09-07 11:17+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: class-gf-mailup.php:113
+msgid "MailUp Account Information"
+msgstr "Informazioni account"
+
+#: class-gf-mailup.php:115
+#, php-format
+msgid ""
+"MailUp makes it easy to send email newsletters to your customers, manage "
+"your subscriber lists, and track campaign performance. Use Gravity Forms to "
+"collect customer information and automatically add them to your MailUp "
+"subscriber list. If you don't have a MailUp account, you can %1$s sign up "
+"for one here.%2$s"
+msgstr ""
+"MailUp rende facile inviare newsletter via email ai vostri clienti, gestire "
+"le liste di abbonati e tenere traccia del rendimento delle campagne. "
+"Utilizza i moduli Graviry Forms per raccogliere informazioni sui clienti e "
+"aggiungerli al tuo elenco abbonati MailUp automaticamente. Se non disponi di "
+"un account MailUp, è possibile%1$s registrarsi qui.%2$s"
+
+#: class-gf-mailup.php:121
+msgid "MailUp Connection:"
+msgstr "Connessione MailUp"
+
+#: class-gf-mailup.php:130
+msgid "Authorized"
+msgstr "Autorizzato"
+
+#: class-gf-mailup.php:132
+msgid "Unauthorized"
+msgstr "Non autorizzato"
+
+#: class-gf-mailup.php:139
+msgid "MailUp Feed Settings"
+msgstr "MailUp Feed Settings"
+
+#: class-gf-mailup.php:144 class-gf-mailup.php:148 class-gf-mailup.php:271
+msgid "Name"
+msgstr "Nome"
+
+#: class-gf-mailup.php:148
+msgid "Enter a feed name to uniquely identify this setup."
+msgstr "Inserisci un feed name unico per identificare questo setup"
+
+#: class-gf-mailup.php:152 class-gf-mailup.php:155 class-gf-mailup.php:272
+msgid "MailUp List"
+msgstr "Lista MailUp"
+
+#: class-gf-mailup.php:155
+msgid "Select the MailUp list you would like to add your contacts to."
+msgstr "Seleziona la lista MailUp sulla quale vuoi aggiungere i contatti"
+
+#: class-gf-mailup.php:159
+msgid "List Groups"
+msgstr "Gruppi nella lista"
+
+#: class-gf-mailup.php:160
+msgid ""
+"Warning: if Double Opt-in is ENABLED the recipient will be subscribed only "
+"in one group, the first one that satisfies the conditions.<br><br>"
+msgstr ""
+"Attenzione: se è abilitato il Double Opt-in l'indirizzo e-mail verrà "
+"iscritto solo in un gruppo, il primo che soddisfa le condizioni impostate."
+"<br><br>"
+
+#: class-gf-mailup.php:165 class-gf-mailup.php:168
+msgid "Groups"
+msgstr "Gruppi"
+
+#: class-gf-mailup.php:168
+msgid ""
+"When one or more groups are enabled, users will be assigned to the groups in "
+"addition to being subscribed to the MailUp list. When disabled, users will "
+"not be assigned to groups."
+msgstr ""
+
+#: class-gf-mailup.php:170
+msgid "Default Mailup Fields"
+msgstr "Campi Default MailUp"
+
+#: class-gf-mailup.php:171
+msgid "Email is mandatory, mobile number is optional.<br><br>"
+msgstr ""
+"L'indirizzo e-mail è obbligatorio. Il numero di telefono è opzionale.<br><br>"
+
+#: class-gf-mailup.php:176 class-gf-mailup.php:179 class-gf-mailup.php:188
+#: class-gf-mailup.php:191
+msgid "Map Fields"
+msgstr "Collega i campi"
+
+#: class-gf-mailup.php:179 class-gf-mailup.php:191
+msgid ""
+"Associate your MailUp merge variables to the appropriate Gravity Form fields "
+"by selecting."
+msgstr ""
+
+#: class-gf-mailup.php:182
+msgid "Personal Data Fields"
+msgstr "Dati personali"
+
+#: class-gf-mailup.php:183
+msgid ""
+"Personal data fields are updated in any case, regardless the previous "
+"subscription status (if any).<br><br>"
+msgstr ""
+
+#: class-gf-mailup.php:196
+msgid "Other Options"
+msgstr "Altre opzioni"
+
+#: class-gf-mailup.php:202 class-gf-mailup.php:206
+msgid "Opt-In Condition"
+msgstr "Opt-In Condition"
+
+#: class-gf-mailup.php:204
+msgid "Enable"
+msgstr "Abilitato"
+
+#: class-gf-mailup.php:205
+msgid "Export to MailUp if"
+msgstr "Esporta su MailUp se"
+
+#: class-gf-mailup.php:206
+msgid ""
+"When the opt-in condition is enabled, form submissions will only be exported "
+"to MailUp when the conditions are met. When disabled all form submissions "
+"will be exported."
+msgstr ""
+
+#: class-gf-mailup.php:210
+msgid "Options"
+msgstr "Opzioni"
+
+#: class-gf-mailup.php:215 class-gf-mailup.php:217
+msgid "Double Opt-In"
+msgstr "Double Opt-In"
+
+#: class-gf-mailup.php:217
+msgid ""
+"When the double opt-in option is enabled, MailUp will send a confirmation "
+"email to the user and will only add them to your MailUp list upon "
+"confirmation."
+msgstr ""
+
+#: class-gf-mailup.php:222 class-gf-mailup.php:223
+msgid "Send Welcome Email"
+msgstr "Invia Email di benvenuto"
+
+#: class-gf-mailup.php:223
+msgid ""
+"When this option is enabled, users will receive an automatic welcome email "
+"from MailUp upon being added to your MailUp list."
+msgstr ""
+
+#: class-gf-mailup.php:241
+msgid "Abusing this may cause your MailUp account to be suspended."
+msgstr ""
+
+#: class-gf-mailup.php:255
+#, php-format
+msgid ""
+"We are unable to login to MailUp with the provided credentials. Please make "
+"sure they are valid in the %sSettings Page%s"
+msgstr ""
+
+#: class-gf-mailup.php:299 class-gf-mailup.php:303 class-gf-mailup.php:306
+msgid "Could not load MailUp contact lists. <br/>Error: "
+msgstr "Impossibile caricare le liste MailUp. <br/>Errore:"
+
+#: class-gf-mailup.php:317
+msgid "Select a MailUp List"
+msgstr "Seleziona una lista MailUp"
+
+#: class-gf-mailup.php:497
+msgid "Assign to group:"
+msgstr "Assegnal al gruppo:"
+
+#: class-gf-mailup.php:506
+msgid "Always"
+msgstr "Sempre"
+
+#: class-gf-mailup.php:510
+msgid "If"
+msgstr "Se"
+
+#: class-gf-mailup.php:1138 class-gf-mailup.php:1156
+msgid "No list related"
+msgstr "Nessuna lista relazionata"
+
+#: class-gf-mailup.php:1355
+msgid "MailUp Add-On Beta Version"
+msgstr ""
+
+#: class-gf-mailup.php:1358
+msgid ""
+"The Gravity Forms MailUp Add-On makes changes to how you manage your MailUp "
+"integration."
+msgstr ""
+
+#: class-gf-mailup.php:1363
+msgid "Manage MailUp Contextually"
+msgstr ""
+
+#: class-gf-mailup.php:1365
+msgid ""
+"MailUp Feeds are now accessed via the MailUp sub-menu within the Form "
+"Settings for the Form with which you would like to integrate MailUp."
+msgstr ""
+
+#: class-gf-mailup.php:1376
+msgid "I understand this change, dismiss this message!"
+msgstr "Ho capito, nascondi questo messaggio!"
+
+#: class-gf-mailup.php:1378
+msgid "Please wait..."
+msgstr "Attendere prego..."
