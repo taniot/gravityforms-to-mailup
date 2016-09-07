@@ -13,7 +13,7 @@ The Gravity Forms To MailUp Add-On gives you an easy way to integrate all of you
 Automatically add subscribers to your email lists when a form is submitted.
 
 ###Custom Fields
-Populate MailChimp custom fields from form field data.
+Populate MailUp custom fields from form field data.
 
 ###Opt-In
 Control opt-in and only add subscribers when a certain condition is met.
