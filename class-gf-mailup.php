@@ -111,7 +111,7 @@ class GFMailUp extends GFFeedAddOn {
             array(
                 'title' => __('MailUp Account Information', 'gravityformsmailup'),
                 'description' => sprintf(
-                        __('MailUp makes it easy to send email newsletters to your customers, manage your subscriber lists, and track campaign performance. Use Gravity Forms to collect customer information and automatically add them to your MailUp subscriber list. If you don\'t have a MailUp account, you can %1$s sign up for one here.%2$s', 'gravityformsmailup'), '<a href="http://www.mailup.com/" target="_blank">', '</a>'
+                        __('MailUp makes it easy to send email newsletters to your customers, manage your subscriber lists, and track campaign performance. Use Gravity Forms to collect customer information and automatically add them to your MailUp subscriber list. If you don\'t have a MailUp account, you can %1$s sign up for one here.%2$s<br><br>', 'gravityformsmailup'), '<a href="http://www.mailup.com/" target="_blank">', '</a>'
                 ),
                 'fields' => array(
                     array(
