@@ -2,10 +2,10 @@ sudo: false
 language: php
 php:
   - nightly
+  - 7.0
   - 5.6
   - 5.5
   - 5.4
-  - 7.0
   - hhvm
 
 # Declare which versions of WordPress to test against.
@@ -15,19 +15,12 @@ env:
   # @link https://github.com/WordPress/WordPress
   - WP_VERSION=master WP_MULTISITE=0
   - WP_VERSION=master WP_MULTISITE=1
-  # WordPress 4.3
-  # @link https://github.com/WordPress/WordPress/tree/4.3-branch
-  - WP_VERSION=4.3 WP_MULTISITE=0
-  - WP_VERSION=4.3 WP_MULTISITE=1
+  # WordPress 4.5
+  # @link https://github.com/WordPress/WordPress/tree/4.5-branch
+  - WP_VERSION=4.5 WP_MULTISITE=0
+  - WP_VERSION=4.5 WP_MULTISITE=1
 
 matrix:
   allow_failures:
     - php: nightly
 
-install:
-  - composer self-update && composer --version
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require squizlabs/php_codesniffer
-
-script:
-  - phpcs --standard=ruleset.xml --extensions=php -n -s .

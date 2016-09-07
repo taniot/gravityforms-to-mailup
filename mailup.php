@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: Gravity Forms to MailUp Add-on
  * Plugin URI: https://github.com/taniot/gravityforms-to-mailup

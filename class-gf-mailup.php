@@ -17,7 +17,6 @@ class GFMailUp extends GFFeedAddOn {
     protected $_capabilities_settings_page = 'gravityforms_mailup';
     protected $_capabilities_form_settings = 'gravityforms_mailup';
     protected $_capabilities_uninstall = 'gravityforms_mailup_uninstall';
-
     private static $api;
     private static $_instance = null;
     protected $mailup_client_id = '5a9b0bfb-ffc7-4441-ba9c-e05081dc24a0';
@@ -251,10 +250,10 @@ class GFMailUp extends GFFeedAddOn {
         if (!$this->mailup_access_token) {
             ?>
             <div><?php
-                echo sprintf(
-                        __('We are unable to login to MailUp with the provided credentials. Please make sure they are valid in the %sSettings Page%s', 'gravityformsmailup'), "<a href='" . esc_url($this->get_plugin_settings_url()) . "'>", '</a>'
-                );
-                ?>
+            echo sprintf(
+                    __('We are unable to login to MailUp with the provided credentials. Please make sure they are valid in the %sSettings Page%s', 'gravityformsmailup'), "<a href='" . esc_url($this->get_plugin_settings_url()) . "'>", '</a>'
+            );
+            ?>
             </div>
 
             <?php
@@ -624,7 +623,6 @@ class GFMailUp extends GFFeedAddOn {
 
                 $groups[] = $group->idGroup;
             }
-
         }
 
 
@@ -709,7 +707,6 @@ class GFMailUp extends GFFeedAddOn {
                 $this->log_error(__METHOD__ . '(): ' . $e->getCode() . ' - ' . $e->getMessage());
             }
         }
-
     }
 
     public function importRecipient($params, $list_id, $merge_vars, $double_optin, $send_welcome) {
@@ -741,7 +738,6 @@ class GFMailUp extends GFFeedAddOn {
         } catch (Exception $ex) {
 
             print_r($ex);
-
         }
 
         if (isset($importRecipient)) {
@@ -754,8 +750,6 @@ class GFMailUp extends GFFeedAddOn {
                 }
             }
         }
-
-
     }
 
     public function checkRecipient($list_id, $email) {
@@ -1100,23 +1094,22 @@ class GFMailUp extends GFFeedAddOn {
         $api = null;
 
 
-            if (!class_exists('MailUpClient')) {
-                require_once( 'api/MailUpClient.php' );
+        if (!class_exists('MailUpClient')) {
+            require_once( 'api/MailUpClient.php' );
+        }
 
-            }
 
+        $this->log_debug(__METHOD__ . '(): Retrieving API Info for key ' . $this->mailup_access_token);
 
-            $this->log_debug(__METHOD__ . '(): Retrieving API Info for key ' . $this->mailup_access_token);
+        try {
 
-            try {
+            $api = new MailUpClient($this->mailup_client_id, $this->mailup_client_secret, $this->mailup_callback_uri);
+        } catch (Exception $e) {
+            $this->log_error(__METHOD__ . '(): Failed to set up the API.');
+            $this->log_error(__METHOD__ . '(): ' . $e->getCode() . ' - ' . $e->getMessage());
 
-                $api = new MailUpClient($this->mailup_client_id, $this->mailup_client_secret, $this->mailup_callback_uri);
-            } catch (Exception $e) {
-                $this->log_error(__METHOD__ . '(): Failed to set up the API.');
-                $this->log_error(__METHOD__ . '(): ' . $e->getCode() . ' - ' . $e->getMessage());
-
-                return null;
-            }
+            return null;
+        }
 
 
         if (!is_object($api)) {
@@ -1247,8 +1240,6 @@ class GFMailUp extends GFFeedAddOn {
             return $is_value_match;
         }
     }
-
-
 
     public static function get_existing_groups($grouping_name, $current_groupings) {
 
