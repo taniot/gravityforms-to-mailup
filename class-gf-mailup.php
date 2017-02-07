@@ -1,41 +1,109 @@
 <?php
 GFForms::include_feed_addon_framework();
 
-class GFMailUp extends GFFeedAddOn {
+/**
+ * Class GFMailUp
+ */
+class GFMailUp extends GFFeedAddOn
+{
 
+    /**
+     * @var string
+     */
     protected $_version = GF_MAILUP_VERSION;
+    /**
+     * @var string
+     */
     protected $_min_gravityforms_version = '1.8.17';
+    /**
+     * @var string
+     */
     protected $_slug = 'gravityformsmailup';
+    /**
+     * @var string
+     */
     protected $_path = 'gravityformsmailup/mailup.php';
+    /**
+     * @var string
+     */
     protected $_full_path = __FILE__;
+    /**
+     * @var string
+     */
     protected $_url = 'http://www.gravityforms.com';
+    /**
+     * @var string
+     */
     protected $_title = 'Gravity Forms MailUp Add-On';
+    /**
+     * @var string
+     */
     protected $_short_title = 'MailUp';
     // Members plugin integration
+    /**
+     * @var array
+     */
     protected $_capabilities = array('gravityforms_mailup', 'gravityforms_mailup_uninstall');
     // Permissions
+    /**
+     * @var string
+     */
     protected $_capabilities_settings_page = 'gravityforms_mailup';
+    /**
+     * @var string
+     */
     protected $_capabilities_form_settings = 'gravityforms_mailup';
+    /**
+     * @var string
+     */
     protected $_capabilities_uninstall = 'gravityforms_mailup_uninstall';
+    /**
+     * @var
+     */
     private static $api;
+    /**
+     * @var null
+     */
     private static $_instance = null;
+    /**
+     * @var string
+     */
     protected $mailup_client_id = '5a9b0bfb-ffc7-4441-ba9c-e05081dc24a0';
+    /**
+     * @var string
+     */
     protected $mailup_client_secret = 'b9f60942-233f-47ce-a88a-ebbf7790b22e';
+    /**
+     * @var string
+     */
     protected $mailup_callback_uri = '';
+    /**
+     * @var string
+     */
     private $mailup_access_token = '';
+    /**
+     * @var string
+     */
     private $mailup_refresh_token = '';
 
-    public static function get_instance() {
+    /**
+     * @return GFMailUp|null
+     */
+    public static function get_instance()
+    {
         if (self::$_instance == null) {
             self::$_instance = new GFMailUp();
         }
 
 
-
         return self::$_instance;
     }
 
-    public function init() {
+    /**
+     *
+     */
+    public function init()
+    {
 
         parent::init();
 
@@ -43,13 +111,21 @@ class GFMailUp extends GFFeedAddOn {
         $this->mailup_refresh_token = get_option('mailup_refresh_token');
     }
 
-    public function init_ajax() {
+    /**
+     *
+     */
+    public function init_ajax()
+    {
         parent::init_ajax();
 
         add_action('wp_ajax_gf_dismiss_mailup_menu', array($this, 'ajax_dismiss_menu'));
     }
 
-    public function init_admin() {
+    /**
+     *
+     */
+    public function init_admin()
+    {
 
         parent::init_admin();
 
@@ -58,7 +134,6 @@ class GFMailUp extends GFFeedAddOn {
 
         $this->mailup_callback_uri = admin_url(urlencode('admin.php?page=gf_settings&subview=gravityformsmailup'));
         $mailUp = $this->get_api();
-
 
 
         if (isset($_REQUEST['gform-settings-save']) && $_REQUEST['page'] == 'gf_settings' && $_REQUEST['subview'] == 'gravityformsmailup') {
@@ -72,13 +147,18 @@ class GFMailUp extends GFFeedAddOn {
         }
 
 
-
         $this->ensure_upgrade();
 
         add_filter('gform_addon_navigation', array($this, 'maybe_create_menu'));
     }
 
-    function settings_save($field, $echo = true) {
+    /**
+     * @param array $field
+     * @param bool $echo
+     * @return string
+     */
+    function settings_save($field, $echo = true)
+    {
 
         $field['type'] = 'submit';
         $field['name'] = 'gform-settings-save';
@@ -105,13 +185,17 @@ class GFMailUp extends GFFeedAddOn {
 
     // ------- Plugin settings -------
 
-    public function plugin_settings_fields() {
+    /**
+     * @return array
+     */
+    public function plugin_settings_fields()
+    {
 
         return array(
             array(
                 'title' => __('MailUp Account Information', 'gravityformsmailup'),
                 'description' => sprintf(
-                        __('MailUp makes it easy to send email newsletters to your customers, manage your subscriber lists, and track campaign performance. Use Gravity Forms to collect customer information and automatically add them to your MailUp subscriber list. If you don\'t have a MailUp account, you can %1$s sign up for one here.%2$s<br><br>', 'gravityformsmailup'), '<a href="http://www.mailup.com/" target="_blank">', '</a>'
+                    __('MailUp makes it easy to send email newsletters to your customers, manage your subscriber lists, and track campaign performance. Use Gravity Forms to collect customer information and automatically add them to your MailUp subscriber list. If you don\'t have a MailUp account, you can %1$s sign up for one here.%2$s<br><br>', 'gravityformsmailup'), '<a href="http://www.mailup.com/" target="_blank">', '</a>'
                 ),
                 'fields' => array(
                     array(
@@ -124,7 +208,11 @@ class GFMailUp extends GFFeedAddOn {
         );
     }
 
-    public function settings_mailup_connection() {
+    /**
+     *
+     */
+    public function settings_mailup_connection()
+    {
         if ($this->mailup_access_token) {
             echo '<span style="color:green">' . __('Authorized', 'gravityformsmailup') . '</span>';
         } else {
@@ -132,7 +220,11 @@ class GFMailUp extends GFFeedAddOn {
         }
     }
 
-    public function feed_settings_fields() {
+    /**
+     * @return array
+     */
+    public function feed_settings_fields()
+    {
         return array(
             array(
                 'title' => __('MailUp Feed Settings', 'gravityformsmailup'),
@@ -228,7 +320,15 @@ class GFMailUp extends GFFeedAddOn {
         );
     }
 
-    public function checkbox_input_double_optin($choice, $attributes, $value, $tooltip) {
+    /**
+     * @param $choice
+     * @param $attributes
+     * @param $value
+     * @param $tooltip
+     * @return string
+     */
+    public function checkbox_input_double_optin($choice, $attributes, $value, $tooltip)
+    {
         $markup = $this->checkbox_input($choice, $attributes, $value, $tooltip);
 
         if ($value) {
@@ -243,17 +343,22 @@ class GFMailUp extends GFFeedAddOn {
     }
 
     //-------- Form Settings ---------
-    public function feed_edit_page($form, $feed_id) {
+    /**
+     * @param $form
+     * @param $feed_id
+     */
+    public function feed_edit_page($form, $feed_id)
+    {
 
         // getting MailUp API
         // ensures valid credentials were entered in the settings page
         if (!$this->mailup_access_token) {
             ?>
             <div><?php
-            echo sprintf(
+                echo sprintf(
                     __('We are unable to login to MailUp with the provided credentials. Please make sure they are valid in the %sSettings Page%s', 'gravityformsmailup'), "<a href='" . esc_url($this->get_plugin_settings_url()) . "'>", '</a>'
-            );
-            ?>
+                );
+                ?>
             </div>
 
             <?php
@@ -265,18 +370,34 @@ class GFMailUp extends GFFeedAddOn {
         parent::feed_edit_page($form, $feed_id);
     }
 
-    public function feed_list_columns() {
+    /**
+     * @return array
+     */
+    public function feed_list_columns()
+    {
         return array(
             'feedName' => __('Name', 'gravityformsmailup'),
             'mailup_list_name' => __('MailUp List', 'gravityformsmailup')
         );
     }
 
-    public function get_column_value_mailup_list_name($feed) {
+    /**
+     * @param $feed
+     * @return string|void
+     */
+    public function get_column_value_mailup_list_name($feed)
+    {
         return $this->get_list_name($feed['meta']['mailupList']);
     }
 
-    public function settings_mailup_list($field, $setting_value = '', $echo = true) {
+    /**
+     * @param $field
+     * @param string $setting_value
+     * @param bool $echo
+     * @return string
+     */
+    public function settings_mailup_list($field, $setting_value = '', $echo = true)
+    {
 
         $mailUp = $this->get_api();
 
@@ -319,9 +440,6 @@ class GFMailUp extends GFFeedAddOn {
             );
 
 
-
-
-
             foreach ($lists as $list) {
                 $options[] = array(
                     'label' => esc_html($list->Name),
@@ -343,10 +461,16 @@ class GFMailUp extends GFFeedAddOn {
         return $html;
     }
 
-    public function settings_mailup_groups($field, $setting_value = '', $echo = true) {
+    /**
+     * @param $field
+     * @param string $setting_value
+     * @param bool $echo
+     * @return string|void
+     */
+    public function settings_mailup_groups($field, $setting_value = '', $echo = true)
+    {
 
         $groupings = $this->get_mailup_groups();
-
 
 
         if (empty($groupings)) {
@@ -365,10 +489,6 @@ class GFMailUp extends GFFeedAddOn {
 		<div id='gaddon-mailup_groups'>";
 
 
-
-
-
-
         $str .= "<div class='gaddon-mailup-group'>";
         //$str.= "<div class='gf_animate_sub_settings'>";
 
@@ -376,24 +496,22 @@ class GFMailUp extends GFFeedAddOn {
         foreach ($groupings->Items as $group) {
 
 
-
-
             $setting_key_root = $this->get_group_setting_key($group->idGroup, $group->Name);
             $choice_key_enabled = "{$setting_key_root}_enabled";
 
 
             $str .= $this->settings_checkbox(
-                    array(
-                'name' => $group->Name,
-                'type' => 'checkbox',
-                'choices' => array(
-                    array(
-                        'name' => $choice_key_enabled,
-                        'label' => $group->Name,
+                array(
+                    'name' => $group->Name,
+                    'type' => 'checkbox',
+                    'choices' => array(
+                        array(
+                            'name' => $choice_key_enabled,
+                            'label' => $group->Name,
+                        ),
                     ),
-                ),
-                'onclick' => "if(this.checked){jQuery('#{$setting_key_root}_condition_container').slideDown();} else{jQuery('#{$setting_key_root}_condition_container').slideUp();}",
-                    ), false
+                    'onclick' => "if(this.checked){jQuery('#{$setting_key_root}_condition_container').slideDown();} else{jQuery('#{$setting_key_root}_condition_container').slideUp();}",
+                ), false
             );
 
             $str .= $this->group_condition($setting_key_root);
@@ -408,9 +526,11 @@ class GFMailUp extends GFFeedAddOn {
         return $str;
     }
 
-    public function merge_vars_field_mailup() {
-
-
+    /**
+     * @return array
+     */
+    public function merge_vars_field_mailup()
+    {
 
 
         $field_map[] = array(
@@ -428,7 +548,11 @@ class GFMailUp extends GFFeedAddOn {
         return $field_map;
     }
 
-    public function field_map_table_header() {
+    /**
+     * @return string
+     */
+    public function field_map_table_header()
+    {
         return '<thead>
 					<tr>
 						<th></th>
@@ -437,7 +561,11 @@ class GFMailUp extends GFFeedAddOn {
 				</thead>';
     }
 
-    public function merge_vars_field_map() {
+    /**
+     * @return array
+     */
+    public function merge_vars_field_map()
+    {
 
 
         $list_id = $this->get_setting('mailupList');
@@ -467,7 +595,6 @@ class GFMailUp extends GFFeedAddOn {
             $merge_vars = $lists->Items;
 
 
-
             foreach ($merge_vars as $merge_var) {
                 $field_map[] = array(
                     'name' => $merge_var->Id,
@@ -479,38 +606,47 @@ class GFMailUp extends GFFeedAddOn {
         return $field_map;
     }
 
-    public function has_mailup_groups() {
+    /**
+     * @return bool
+     */
+    public function has_mailup_groups()
+    {
         $groupings = $this->get_mailup_groups();
 
 
         return !empty($groupings);
     }
 
-    public function group_condition($setting_name_root) {
+    /**
+     * @param $setting_name_root
+     * @return string
+     */
+    public function group_condition($setting_name_root)
+    {
 
         $condition_enabled_setting = "{$setting_name_root}_enabled";
         $is_enabled = $this->get_setting($condition_enabled_setting) == '1';
         $container_style = !$is_enabled ? "style='display:none;'" : '';
 
         $str = "<div id='{$setting_name_root}_condition_container' {$container_style} class='condition_container'>" .
-                __('Assign to group:', 'gravityformsmailup') . ' ';
+            __('Assign to group:', 'gravityformsmailup') . ' ';
 
         $str .= $this->settings_select(
-                array(
-            'name' => "{$setting_name_root}_decision",
-            'type' => 'select',
-            'choices' => array(
-                array(
-                    'value' => 'always',
-                    'label' => __('Always', 'gravityformsmailup')
+            array(
+                'name' => "{$setting_name_root}_decision",
+                'type' => 'select',
+                'choices' => array(
+                    array(
+                        'value' => 'always',
+                        'label' => __('Always', 'gravityformsmailup')
+                    ),
+                    array(
+                        'value' => 'if',
+                        'label' => __('If', 'gravityformsmailup')
+                    ),
                 ),
-                array(
-                    'value' => 'if',
-                    'label' => __('If', 'gravityformsmailup')
-                ),
-            ),
-            'onchange' => "if(jQuery(this).val() == 'if'){jQuery('#{$setting_name_root}_decision_container').show();}else{jQuery('#{$setting_name_root}_decision_container').hide();}",
-                ), false
+                'onchange' => "if(jQuery(this).val() == 'if'){jQuery('#{$setting_name_root}_decision_container').show();}else{jQuery('#{$setting_name_root}_decision_container').hide();}",
+            ), false
         );
 
         $decision = $this->get_setting("{$setting_name_root}_decision");
@@ -521,14 +657,18 @@ class GFMailUp extends GFFeedAddOn {
         $conditional_style = $decision == 'always' ? "style='display:none;'" : '';
 
         $str .= '   <span id="' . $setting_name_root . '_decision_container" ' . $conditional_style . '><br />' .
-                $this->simple_condition($setting_name_root, $is_enabled) .
-                '   </span>' .
-                '</div>';
+            $this->simple_condition($setting_name_root, $is_enabled) .
+            '   </span>' .
+            '</div>';
 
         return $str;
     }
 
-    public function get_conditional_logic_fields() {
+    /**
+     * @return array
+     */
+    public function get_conditional_logic_fields()
+    {
         $form = $this->get_current_form();
         $fields = array();
         foreach ($form['fields'] as $field) {
@@ -561,8 +701,15 @@ class GFMailUp extends GFFeedAddOn {
 
     //------ Core Functionality ------
 
-    public function process_feed($feed, $entry, $form) {
+    /**
+     * @param $feed
+     * @param $entry
+     * @param $form
+     */
+    public function process_feed($feed, $entry, $form)
+    {
         $this->log_debug(__METHOD__ . '(): Processing feed.');
+
 
         $mailUp = $this->get_api();
 
@@ -574,8 +721,7 @@ class GFMailUp extends GFFeedAddOn {
         } catch (Exception $ex) {
             $this->log_debug(__METHOD__ . '(): Connection Error: ' . $ex->getStatusCode() . ': ' . $ex->getMessage());
         }
-
-
+        
         if (!$getAuthInfo)
             return;
 
@@ -604,13 +750,9 @@ class GFMailUp extends GFFeedAddOn {
         $groupings = $this->get_mailup_groups($feed_meta['mailupList']);
 
 
-
-
-
         if ($groupings !== false) {
 
             $groups = array();
-
 
 
             foreach ($groupings->Items as $group) {
@@ -624,8 +766,6 @@ class GFMailUp extends GFFeedAddOn {
                 $groups[] = $group->idGroup;
             }
         }
-
-
 
 
         if (!empty($groups)) {
@@ -709,7 +849,15 @@ class GFMailUp extends GFFeedAddOn {
         }
     }
 
-    public function importRecipient($params, $list_id, $merge_vars, $double_optin, $send_welcome) {
+    /**
+     * @param $params
+     * @param $list_id
+     * @param $merge_vars
+     * @param $double_optin
+     * @param $send_welcome
+     */
+    public function importRecipient($params, $list_id, $merge_vars, $double_optin, $send_welcome)
+    {
 
         $mailUp = $this->get_api();
 
@@ -724,11 +872,8 @@ class GFMailUp extends GFFeedAddOn {
         }
 
 
-
-
-
         if ($double_optin) {
-            $url.= '?ConfirmEmail=true';
+            $url .= '?ConfirmEmail=true';
         }
 
         $body = json_encode($params);
@@ -752,7 +897,13 @@ class GFMailUp extends GFFeedAddOn {
         }
     }
 
-    public function checkRecipient($list_id, $email) {
+    /**
+     * @param $list_id
+     * @param $email
+     * @return mixed
+     */
+    public function checkRecipient($list_id, $email)
+    {
         $mailUp = $this->get_api();
         $recipientFound = 0;
         $recipientStatus = '';
@@ -796,12 +947,19 @@ class GFMailUp extends GFFeedAddOn {
         }
 
 
-
-
         return $result;
     }
 
-    public function process_merge_vars($feed, $entry, $form, $override_empty_fields, $field_map) {
+    /**
+     * @param $feed
+     * @param $entry
+     * @param $form
+     * @param $override_empty_fields
+     * @param $field_map
+     * @return mixed
+     */
+    public function process_merge_vars($feed, $entry, $form, $override_empty_fields, $field_map)
+    {
 
         foreach ($field_map as $name => $field_id) {
 
@@ -845,7 +1003,7 @@ class GFMailUp extends GFFeedAddOn {
                     elseif ($is_integer && $input_type == 'checkbox') {
                         $selected = array();
                         foreach ($field['inputs'] as $input) {
-                            $index = (string) $input['id'];
+                            $index = (string)$input['id'];
                             if (!rgempty($index, $entry)) {
                                 $selected[] = apply_filters('gform_mailup_field_value', rgar($entry, $index), $form['id'], $field_id, $entry, $name);
                             }
@@ -864,7 +1022,13 @@ class GFMailUp extends GFFeedAddOn {
         return $merge_vars;
     }
 
-    public function process_feed_old($feed, $entry, $form) {
+    /**
+     * @param $feed
+     * @param $entry
+     * @param $form
+     */
+    public function process_feed_old($feed, $entry, $form)
+    {
         $this->log_debug(__METHOD__ . '(): Processing feed.');
 
         // login to MailUp
@@ -932,7 +1096,7 @@ class GFMailUp extends GFFeedAddOn {
                     elseif ($is_integer && $input_type == 'checkbox') {
                         $selected = array();
                         foreach ($field['inputs'] as $input) {
-                            $index = (string) $input['id'];
+                            $index = (string)$input['id'];
                             if (!rgempty($index, $entry)) {
                                 $selected[] = apply_filters('gform_mailup_field_value', rgar($entry, $index), $form['id'], $field_id, $entry, $name);
                             }
@@ -1078,9 +1242,11 @@ class GFMailUp extends GFFeedAddOn {
 
     //------- Helpers ----------------
 
-    private function get_api() {
-
-
+    /**
+     * @return MailUpClient|null
+     */
+    private function get_api()
+    {
 
 
         if (self::$api) {
@@ -1089,13 +1255,11 @@ class GFMailUp extends GFFeedAddOn {
         }
 
 
-
-
         $api = null;
 
 
         if (!class_exists('MailUpClient')) {
-            require_once( 'api/MailUpClient.php' );
+            require_once('api/MailUpClient.php');
         }
 
 
@@ -1124,7 +1288,12 @@ class GFMailUp extends GFFeedAddOn {
         return self::$api;
     }
 
-    private function get_list_name($list_id) {
+    /**
+     * @param $list_id
+     * @return string|void
+     */
+    private function get_list_name($list_id)
+    {
 
 
         if (!$list_id) {
@@ -1153,20 +1322,27 @@ class GFMailUp extends GFFeedAddOn {
         }
     }
 
-    public function get_current_mailup_list() {
+    /**
+     * @return array|string
+     */
+    public function get_current_mailup_list()
+    {
         return $this->get_setting('mailupList');
     }
 
-    private function get_mailup_groups($mailup_list = false) {
+    /**
+     * @param bool $mailup_list
+     * @return array|bool|mixed|object
+     */
+    private function get_mailup_groups($mailup_list = false)
+    {
 
         $this->log_debug(__METHOD__ . '(): Retrieving groups.');
-
 
 
         if (!$mailup_list) {
             $mailup_list = $this->get_current_mailup_list();
         }
-
 
 
         if (!$mailup_list) {
@@ -1192,7 +1368,14 @@ class GFMailUp extends GFFeedAddOn {
         return $groups;
     }
 
-    private function get_group_settings($group, $grouping_id, $feed) {
+    /**
+     * @param $group
+     * @param $grouping_id
+     * @param $feed
+     * @return array
+     */
+    private function get_group_settings($group, $grouping_id, $feed)
+    {
 
         $prefix = $this->get_group_setting_key($grouping_id, $group->Name) . '_';
         $props = array('enabled', 'decision', 'field_id', 'operator', 'value');
@@ -1205,7 +1388,13 @@ class GFMailUp extends GFFeedAddOn {
         return $settings;
     }
 
-    public function get_group_setting_key($grouping_id, $group_name) {
+    /**
+     * @param $grouping_id
+     * @param $group_name
+     * @return mixed
+     */
+    public function get_group_setting_key($grouping_id, $group_name)
+    {
 
         $plugin_settings = GFCache::get('mailup_plugin_settings');
         if (empty($plugin_settings)) {
@@ -1225,7 +1414,14 @@ class GFMailUp extends GFFeedAddOn {
         return $plugin_settings[$key];
     }
 
-    public static function is_group_condition_met($group, $form, $entry) {
+    /**
+     * @param $group
+     * @param $form
+     * @param $entry
+     * @return bool|mixed|void
+     */
+    public static function is_group_condition_met($group, $form, $entry)
+    {
 
         $field = RGFormsModel::get_field($form, $group['field_id']);
         $field_value = RGFormsModel::get_lead_field_value($entry, $field);
@@ -1241,7 +1437,13 @@ class GFMailUp extends GFFeedAddOn {
         }
     }
 
-    public static function get_existing_groups($grouping_name, $current_groupings) {
+    /**
+     * @param $grouping_name
+     * @param $current_groupings
+     * @return array
+     */
+    public static function get_existing_groups($grouping_name, $current_groupings)
+    {
 
         foreach ($current_groupings as $grouping) {
             if (strtolower($grouping['name']) == strtolower($grouping_name)) {
@@ -1252,7 +1454,13 @@ class GFMailUp extends GFFeedAddOn {
         return array();
     }
 
-    private function get_address($entry, $field_id) {
+    /**
+     * @param $entry
+     * @param $field_id
+     * @return string
+     */
+    private function get_address($entry, $field_id)
+    {
         $street_value = str_replace('  ', ' ', trim(rgar($entry, $field_id . '.1')));
         $street2_value = str_replace('  ', ' ', trim(rgar($entry, $field_id . '.2')));
         $city_value = str_replace('  ', ' ', trim(rgar($entry, $field_id . '.3')));
@@ -1276,7 +1484,13 @@ class GFMailUp extends GFFeedAddOn {
         return implode('  ', $address);
     }
 
-    private function get_name($entry, $field_id) {
+    /**
+     * @param $entry
+     * @param $field_id
+     * @return mixed|null|string
+     */
+    private function get_name($entry, $field_id)
+    {
 
         //If field is simple (one input), simply return full content
         $name = rgar($entry, $field_id);
@@ -1292,17 +1506,22 @@ class GFMailUp extends GFFeedAddOn {
         $suffix = trim(rgar($entry, $field_id . '.8'));
 
         $name = $prefix;
-        $name .=!empty($name) && !empty($first) ? ' ' . $first : $first;
-        $name .=!empty($name) && !empty($middle) ? ' ' . $middle : $middle;
-        $name .=!empty($name) && !empty($last) ? ' ' . $last : $last;
-        $name .=!empty($name) && !empty($suffix) ? ' ' . $suffix : $suffix;
+        $name .= !empty($name) && !empty($first) ? ' ' . $first : $first;
+        $name .= !empty($name) && !empty($middle) ? ' ' . $middle : $middle;
+        $name .= !empty($name) && !empty($last) ? ' ' . $last : $last;
+        $name .= !empty($name) && !empty($suffix) ? ' ' . $suffix : $suffix;
 
         return $name;
     }
 
     //------ Temporary Notice for Main Menu --------------------//
 
-    public function maybe_create_menu($menus) {
+    /**
+     * @param $menus
+     * @return array
+     */
+    public function maybe_create_menu($menus)
+    {
 
         $current_user = wp_get_current_user();
         $dismiss_mailup_menu = get_metadata('user', $current_user->ID, 'dismiss_mailup_menu', true);
@@ -1318,25 +1537,33 @@ class GFMailUp extends GFFeedAddOn {
         return $menus;
     }
 
-    public function ajax_dismiss_menu() {
+    /**
+     *
+     */
+    public function ajax_dismiss_menu()
+    {
 
         $current_user = wp_get_current_user();
         update_metadata('user', $current_user->ID, 'dismiss_mailup_menu', '1');
     }
 
-    public function temporary_plugin_page() {
+    /**
+     *
+     */
+    public function temporary_plugin_page()
+    {
         $current_user = wp_get_current_user();
         ?>
         <script type="text/javascript">
             function dismissMenu() {
                 jQuery('#gf_spinner').show();
                 jQuery.post(ajaxurl, {
-                    action: "gf_dismiss_mailup_menu"
-                },
-                function (response) {
-                    document.location.href = '?page=gf_edit_forms';
-                    jQuery('#gf_spinner').hide();
-                }
+                        action: "gf_dismiss_mailup_menu"
+                    },
+                    function (response) {
+                        document.location.href = '?page=gf_edit_forms';
+                        jQuery('#gf_spinner').hide();
+                    }
                 );
 
             }
@@ -1346,7 +1573,7 @@ class GFMailUp extends GFFeedAddOn {
             <h1><?php _e('MailUp Add-On Beta Version', 'gravityformsmailup') ?></h1>
 
             <div
-                class="about-text"><?php _e('The Gravity Forms MailUp Add-On makes changes to how you manage your MailUp integration.', 'gravityformsmailup') ?></div>
+                    class="about-text"><?php _e('The Gravity Forms MailUp Add-On makes changes to how you manage your MailUp integration.', 'gravityformsmailup') ?></div>
             <div class="changelog">
                 <hr/>
                 <div class="feature-section col two-col">
@@ -1376,7 +1603,11 @@ class GFMailUp extends GFFeedAddOn {
 
     //------ FOR BACKWARDS COMPATIBILITY ----------------------//
     //Migrate existing data to new table structure
-    public function upgrade($previous_version) {
+    /**
+     * @param $previous_version
+     */
+    public function upgrade($previous_version)
+    {
 
         $previous_is_pre_addon_framework = empty($previous_version) || version_compare($previous_version, '3.0.dev1', '<');
 
@@ -1461,24 +1692,24 @@ class GFMailUp extends GFFeedAddOn {
                         $new_meta['feed_condition_conditional_logic'] = 1;
                         $new_meta['feed_condition_conditional_logic_object'] = array(
                             'conditionalLogic' =>
-                            array(
-                                'actionType' => 'show',
-                                'logicType' => 'all',
-                                'rules' => array(
-                                    array(
-                                        'fieldId' => rgar($old_feed['meta'], 'optin_field_id'),
-                                        'operator' => rgar($old_feed['meta'], 'optin_operator'),
-                                        'value' => rgar($old_feed['meta'], 'optin_value')
-                                    ),
+                                array(
+                                    'actionType' => 'show',
+                                    'logicType' => 'all',
+                                    'rules' => array(
+                                        array(
+                                            'fieldId' => rgar($old_feed['meta'], 'optin_field_id'),
+                                            'operator' => rgar($old_feed['meta'], 'optin_operator'),
+                                            'value' => rgar($old_feed['meta'], 'optin_value')
+                                        ),
+                                    )
                                 )
-                            )
                         );
                     } else {
                         $new_meta['feed_condition_conditional_logic'] = 0;
                     }
 
                     $this->insert_feed($form_id, $is_active, $new_meta);
-                    $counter ++;
+                    $counter++;
                 }
 
                 //set paypal delay setting
@@ -1487,7 +1718,11 @@ class GFMailUp extends GFFeedAddOn {
         }
     }
 
-    public function ensure_upgrade() {
+    /**
+     * @return bool
+     */
+    public function ensure_upgrade()
+    {
 
         if (get_option('gf_mailup_update')) {
             return false;
@@ -1503,7 +1738,11 @@ class GFMailUp extends GFFeedAddOn {
         update_option('gf_mailup_update', 1);
     }
 
-    public function update_paypal_delay_settings($old_delay_setting_name) {
+    /**
+     * @param $old_delay_setting_name
+     */
+    public function update_paypal_delay_settings($old_delay_setting_name)
+    {
         global $wpdb;
         $this->log_debug(__METHOD__ . '(): Checking to see if there are any delay settings that need to be migrated for PayPal Standard.');
 
@@ -1540,7 +1779,11 @@ class GFMailUp extends GFFeedAddOn {
         }
     }
 
-    public function get_old_paypal_feeds() {
+    /**
+     * @return array|null|object
+     */
+    public function get_old_paypal_feeds()
+    {
         global $wpdb;
         $table_name = $wpdb->prefix . 'rg_paypal';
 
@@ -1559,14 +1802,18 @@ class GFMailUp extends GFFeedAddOn {
 
         $this->log_debug(__METHOD__ . "(): count: {$count}");
 
-        for ($i = 0; $i < $count; $i ++) {
+        for ($i = 0; $i < $count; $i++) {
             $results[$i]['meta'] = maybe_unserialize($results[$i]['meta']);
         }
 
         return $results;
     }
 
-    public function get_old_feeds() {
+    /**
+     * @return array|null|object
+     */
+    public function get_old_feeds()
+    {
         global $wpdb;
         $table_name = $wpdb->prefix . 'rg_mailup';
 
@@ -1578,7 +1825,7 @@ class GFMailUp extends GFFeedAddOn {
         $results = $wpdb->get_results($sql, ARRAY_A);
 
         $count = sizeof($results);
-        for ($i = 0; $i < $count; $i ++) {
+        for ($i = 0; $i < $count; $i++) {
             $results[$i]['meta'] = maybe_unserialize($results[$i]['meta']);
         }
 

@@ -16,12 +16,22 @@ if (!defined('WPINC')) {
     die;
 }
 
+/**
+ *
+ */
 define('GF_MAILUP_VERSION', '0.1.0');
 
 add_action('gform_loaded', array('GF_MailUp_Bootstrap', 'load'), 5);
 
+/**
+ * Class GF_MailUp_Bootstrap
+ */
 class GF_MailUp_Bootstrap {
 
+    /**
+     *
+     */
+     */
     public static function load() {
 
         if (!method_exists('GFForms', 'include_feed_addon_framework')) {
@@ -35,6 +45,9 @@ class GF_MailUp_Bootstrap {
 
 }
 
+/**
+ * @return GFMailUp|null
+ */
 function gf_mailup() {
     return GFMailUp::get_instance();
 }
