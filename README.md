@@ -37,10 +37,10 @@ defaults to override.
 ### Change Args before submission
 Hook to allow args to be changed before sending submission to MailUp
 
-        add_filter( 'gform_mailup_args_pre_subscribe', 'override_mailup_params', 10, 4 );
+    add_filter( 'gform_mailup_args_pre_subscribe', 'override_mailup_params', 10, 4 );
  
-        function override_mailup_params( $params, $form, $entry, $feed ) {
+    function override_mailup_params( $params, $form, $entry, $feed ) {
             // do stuff
 
             return $params;
-        }
+    }
