@@ -20,9 +20,27 @@ Control opt-in and only add subscribers when a certain condition is met.
 ###Double Opt-In
 Automatically send a double opt in message to ensure only legitimate subscribers are added.
 
-
 ## Contribution
 There are 2 ways to contribute to this plugin:
 
 1. Report a bug, submit pull request or new feature proposal: visit the [Github repo](https://github.com/taniot/gravityforms-to-mailup).
 2. [Buy me a beer! :beer:](//paypal.me/taniot)
+
+##Filters
+
+### Override MailUp Fields
+Hook to select whether empty mapped fields should override existing values on Mailchimp;
+defaults to override.
+
+    add_filter('gform_mailup_override_empty_fields', '__return_false' );
+
+### Change Args before submission
+Hook to allow args to be changed before sending submission to MailChimp
+
+        add_filter( 'gform_mailup_args_pre_subscribe', 'override_mailup_params', 10, 4 );
+ 
+        function override_mailup_params( $params, $form, $entry, $feed ) {
+            // do stuff
+
+            return $params;
+        }
