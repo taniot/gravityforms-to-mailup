@@ -29,13 +29,13 @@ There are 2 ways to contribute to this plugin:
 ##Filters
 
 ### Override MailUp Fields
-Hook to select whether empty mapped fields should override existing values on Mailchimp;
+Hook to select whether empty mapped fields should override existing values on MailUp;
 defaults to override.
 
     add_filter('gform_mailup_override_empty_fields', '__return_false' );
 
 ### Change Args before submission
-Hook to allow args to be changed before sending submission to MailChimp
+Hook to allow args to be changed before sending submission to MailUp
 
         add_filter( 'gform_mailup_args_pre_subscribe', 'override_mailup_params', 10, 4 );
  
