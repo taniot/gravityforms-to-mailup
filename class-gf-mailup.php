@@ -721,7 +721,7 @@ class GFMailUp extends GFFeedAddOn
         } catch (Exception $ex) {
             $this->log_debug(__METHOD__ . '(): Connection Error: ' . $ex->getStatusCode() . ': ' . $ex->getMessage());
         }
-        
+
         if (!$getAuthInfo)
             return;
 

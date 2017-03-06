@@ -28,10 +28,6 @@ add_action('gform_loaded', array('GF_MailUp_Bootstrap', 'load'), 5);
  */
 class GF_MailUp_Bootstrap {
 
-    /**
-     *
-     */
-     */
     public static function load() {
 
         if (!method_exists('GFForms', 'include_feed_addon_framework')) {
