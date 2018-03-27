@@ -909,7 +909,7 @@ class GFMailUp extends GFFeedAddOn
         $recipientStatus = '';
 
         //check subscribed
-        $url = $mailUp->getConsoleEndpoint() . "/Console/List/$list_id/Recipients/subscribed?filterby=\"Email.Contains('$email')\"";
+        $url = $mailUp->getConsoleEndpoint() . "/Console/List/$list_id/Recipients/Subscribed?filterby=\"Email.Contains('$email')\"";
         $recipientExists = $mailUp->callMethod($url, "GET", null, "JSON");
         $recipientExists = json_decode($recipientExists);
 
@@ -919,7 +919,7 @@ class GFMailUp extends GFFeedAddOn
 
         if ($recipientFound == 0) {
             //check pending
-            $url = $mailUp->getConsoleEndpoint() . "/Console/List/$list_id/Recipients/pending?filterby=\"Email.Contains('$email')\"";
+            $url = $mailUp->getConsoleEndpoint() . "/Console/List/$list_id/Recipients/Pending?filterby=\"Email.Contains('$email')\"";
             $recipientExists = $mailUp->callMethod($url, "GET", null, "JSON");
             $recipientExists = json_decode($recipientExists);
             $recipientFound = $recipientExists->TotalElementsCount;
@@ -928,7 +928,7 @@ class GFMailUp extends GFFeedAddOn
 
         if ($recipientFound == 0) {
             //check unsubscribed
-            $url = $mailUp->getConsoleEndpoint() . "/Console/List/$list_id/Recipients/unsubscribed?filterby=\"Email.Contains('$email')\"";
+            $url = $mailUp->getConsoleEndpoint() . "/Console/List/$list_id/Recipients/Unsubscribed?filterby=\"Email.Contains('$email')\"";
             $recipientExists = $mailUp->callMethod($url, "GET", null, "JSON");
             $recipientExists = json_decode($recipientExists);
             $recipientFound = $recipientExists->TotalElementsCount;
