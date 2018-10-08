@@ -9,16 +9,16 @@ The Gravity Forms To MailUp Add-On gives you an easy way to integrate all of you
 
 ## Main features
 
-###Seamless Integration
+### Seamless Integration
 Automatically add subscribers to your email lists when a form is submitted.
 
-###Custom Fields
+### Custom Fields
 Populate MailUp custom fields from form field data.
 
-###Opt-In
+### Opt-In
 Control opt-in and only add subscribers when a certain condition is met.
 
-###Double Opt-In
+### Double Opt-In
 Automatically send a double opt in message to ensure only legitimate subscribers are added.
 
 ## Contribution
