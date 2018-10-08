@@ -27,7 +27,7 @@ There are 2 ways to contribute to this plugin:
 1. Report a bug, submit pull request or new feature proposal: visit the [Github repo](https://github.com/taniot/gravityforms-to-mailup).
 2. [Buy me a beer! :beer:](//paypal.me/taniot)
 
-##Filters
+## Filters
 
 ### Override MailUp Fields
 Hook to select whether empty mapped fields should override existing values on MailUp;
