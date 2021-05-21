@@ -68,11 +68,11 @@ class GFMailUp extends GFFeedAddOn
     /**
      * @var string
      */
-    protected $mailup_client_id = '5a9b0bfb-ffc7-4441-ba9c-e05081dc24a0';
+    protected $mailup_client_id = '';
     /**
      * @var string
      */
-    protected $mailup_client_secret = 'b9f60942-233f-47ce-a88a-ebbf7790b22e';
+    protected $mailup_client_secret = '';
     /**
      * @var string
      */
