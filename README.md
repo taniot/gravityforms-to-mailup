@@ -1,4 +1,4 @@
-# Gravity Forms To MailUp (Wordpress Plugin)
+# OLD - Gravity Forms To MailUp (Wordpress Plugin)
 
 This is an old version, not compatible with GravityForms 2.5.
 
