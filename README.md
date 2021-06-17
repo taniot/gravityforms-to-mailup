@@ -1,6 +1,7 @@
 # OLD - Gravity Forms To MailUp (Wordpress Plugin)
 
 This is an old version, not compatible with GravityForms 2.5.
+You can find the new version [here] (//taniot.net/shop/mailup-for-gravity-forms/)
 
 Integrate Gravity Forms with MailUp allowing form submissions to be automatically sent to your MailUp account.
 This is not an official MailUp plugin.
